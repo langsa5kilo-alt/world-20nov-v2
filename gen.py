@@ -60,17 +60,41 @@ rule(160)
 lead_x, lead_y, lead_w = M,168,632
 text(lead_x,166,"SHENZHEN SUMMIT FACES",34,INK,True,lead_w)
 text(lead_x,204,"ITS FIRST TEST",34,INK,True,lead_w)
-# 300x120 illustration: summit table, skyline, delegates
+# 300x120 illustration: hazy, rain-wet Shenzhen skyline
 ix,iy=lead_x,246
-d.rectangle((ix,iy,ix+300,iy+120),fill="#18252d")
-d.rectangle((ix,iy+83,ix+300,iy+120),fill="#22272e")
-for bx,bw,bh in [(12,29,52),(48,22,72),(78,40,45),(126,27,67),(161,48,56),(216,25,76),(249,38,48)]:
-    d.rectangle((ix+bx,iy+83-bh,ix+bx+bw,iy+83),fill="#314452")
-    for wx in range(ix+bx+5,ix+bx+bw-2,9): d.rectangle((wx,iy+73-bh,wx+2,iy+78-bh),fill="#75909d")
-poly([(ix+42,iy+93),(ix+150,iy+68),(ix+258,iy+93),(ix+150,iy+114)],"#8b2638")
-for cx in [76,105,134,166,195,224]:
-    d.ellipse((ix+cx-5,iy+70,ix+cx+5,iy+80),fill="#d4b39a")
-    d.rectangle((ix+cx-7,iy+80,ix+cx+7,iy+93),fill="#222831")
+d.rectangle((ix,iy,ix+300,iy+120),fill="#8c9ba2")
+d.ellipse((ix+231,iy+10,ix+259,iy+38),fill="#d8b98b")
+# two soft cloud bands, assembled from opaque overlapping ellipses
+for cx,cy,c in [(25,20,"#aab5b9"),(57,18,"#aab5b9"),(86,22,"#aab5b9"),
+                (151,33,"#788b94"),(187,30,"#788b94"),(219,34,"#788b94")]:
+    d.ellipse((ix+cx-24,iy+cy-5,ix+cx+28,iy+cy+7),fill=c)
+# atmospheric separation, eight explicitly interpolated opaque bands
+atmos=["#738892","#6d828d","#677d88","#617782","#5b717d","#556b77","#4f6572","#495f6d"]
+for n,c in enumerate(atmos): d.rectangle((ix,iy+43+n*2,ix+300,iy+44+n*2),fill=c)
+# varied middle skyline and individually lit 2x3 window grids
+buildings=[(7,23,35),(34,28,48),(67,20,61),(91,35,42),(130,23,55),(157,34,46),(195,20,65),(219,31,51),(254,38,39)]
+for bi,(bx,bw,bh) in enumerate(buildings):
+    top=94-bh; d.rectangle((ix+bx,iy+top,ix+bx+bw,iy+94),fill="#2d414c")
+    for wy in range(top+7,91,7):
+        for wx in range(bx+5,bx+bw-3,7):
+            lit=((wx//7)+(wy//7)+bi)%4 != 0
+            d.rectangle((ix+wx,iy+wy,ix+wx+2,iy+wy+3),fill="#d7b875" if lit else "#263740")
+# wet foreground and broken vertical reflection streaks
+d.rectangle((ix,iy+94,ix+300,iy+120),fill="#1a252c")
+for rx,rh in [(42,19),(49,12),(76,22),(83,15),(139,18),(146,10),(203,24),(210,16),(268,14)]:
+    d.rectangle((ix+rx,iy+97,ix+rx+2,iy+97+rh),fill="#8d7658")
+    d.rectangle((ix+rx+1,iy+101,ix+rx+3,iy+104),fill="#c5a76d")
+# two darker near structures
+d.rectangle((ix+4,iy+70,ix+35,iy+103),fill="#15242c")
+poly([(ix+264,iy+103),(ix+264,iy+60),(ix+291,iy+49),(ix+296,iy+103)],"#12212a")
+for wy in (68,77,86): d.rectangle((ix+271,iy+wy,ix+274,iy+wy+4),fill="#708994")
+# subtle 12-step edge vignette, no alpha
+vcols=["#26343b","#29383f","#2c3b42","#2f3e45","#324148","#35444b"]
+for n in range(12):
+    c=vcols[min(n//2,5)]
+    d.line((ix+n,iy+n,ix+299-n,iy+n),fill=c)
+    d.line((ix+n,iy+n,ix+n,iy+119-n),fill=c)
+    d.line((ix+299-n,iy+n,ix+299-n,iy+119-n),fill=c)
 d.rectangle((ix,iy+103,ix+300,iy+120),fill=RED)
 text(ix+7,iy+106,"SHENZHEN  ·  TRADE, CLIMATE AND SEA SECURITY",9,"#ffffff",True,286)
 text(ix+314,248,"Leaders bring a carbon-market pledge, but a maritime",11,BODY,False,318)
@@ -104,14 +128,40 @@ cards=[
  ("OCEANIA","AUCKLAND VOTES","FOR DENSER HOMES","#858bd1",9)]
 cw, cg = 184, 12
 def vignette(x,y,k,c):
-    d.rectangle((x,y,x+92,y+46),fill="#202830")
-    if k%3==0:
-        d.ellipse((x+10,y+8,x+42,y+40),fill=c); d.rectangle((x+50,y+13,x+82,y+36),fill="#59616b")
-    elif k%3==1:
-        poly([(x+4,y+39),(x+28,y+12),(x+49,y+32),(x+67,y+7),(x+90,y+39)],c)
-        d.line((x+4,y+39,x+90,y+39),fill="#abb2bb",width=2)
-    else:
-        d.rectangle((x+9,y+11,x+83,y+38),fill=c); d.line((x+15,y+33,x+76,y+16),fill=INK,width=3)
+    dark,mid,hi="#202830","#59616b","#d7dce1"
+    d.rectangle((x,y,x+92,y+46),fill=dark)
+    if k==0: # court gavel on a bench
+        d.rectangle((x+8,y+35,x+84,y+41),fill=mid); d.rectangle((x+46,y+10,x+52,y+34),fill=c)
+        poly([(x+34,y+9),(x+57,y+18),(x+53,y+27),(x+30,y+18)],c); d.line((x+35,y+11,x+54,y+18),fill=hi,width=2)
+    elif k==1: # vial and chart
+        d.rectangle((x+10,y+14,x+29,y+39),fill=c); d.rectangle((x+14,y+8,x+25,y+14),fill=mid)
+        d.line((x+39,y+37,x+83,y+37),fill=mid,width=2); d.line((x+42,y+32,x+54,y+24,x+65,y+29,x+81,y+10),fill=c,width=3); d.ellipse((x+77,y+7,x+83,y+13),fill=hi)
+    elif k==2: # wind turbine and wave
+        d.line((x+31,y+15,x+31,y+40),fill=hi,width=2); d.ellipse((x+28,y+12,x+34,y+18),fill=c)
+        for ex,ey in [(15,6),(45,7),(29,27)]: d.line((x+31,y+15,x+ex,y+ey),fill=c,width=3)
+        d.arc((x+44,y+22,x+91,y+48),190,345,fill=c,width=4); d.arc((x+55,y+28,x+88,y+45),190,340,fill=hi,width=2)
+    elif k==3: # ballot box with a queue
+        d.rectangle((x+42,y+19,x+82,y+40),fill=c); d.line((x+49,y+23,x+73,y+23),fill=hi,width=2); poly([(x+55,y+7),(x+72,y+12),(x+67,y+25),(x+50,y+19)],hi)
+        for px in (9,23,35): d.ellipse((x+px,y+16,x+px+7,y+23),fill=mid); d.line((x+px+3,y+23,x+px+3,y+38),fill=mid,width=3)
+    elif k==4: # train entering a tunnel
+        d.arc((x+4,y+6,x+60,y+55),180,360,fill=c,width=6); d.rectangle((x+25,y+20,x+56,y+41),fill=mid)
+        d.rectangle((x+30,y+24,x+39,y+31),fill=hi); d.ellipse((x+29,y+37,x+35,y+43),fill=c); d.line((x+57,y+38,x+88,y+38),fill=hi,width=2)
+    elif k==5: # satellite over a curve
+        d.arc((x+2,y+22,x+90,y+70),180,360,fill=c,width=4); d.rectangle((x+39,y+13,x+53,y+27),fill=hi)
+        poly([(x+36,y+15),(x+18,y+8),(x+15,y+18),(x+36,y+23)],mid); poly([(x+56,y+15),(x+75,y+8),(x+78,y+18),(x+56,y+23)],mid); d.line((x+46,y+13,x+51,y+5),fill=c,width=2)
+    elif k==6: # flood wall with water
+        d.rectangle((x+49,y+8,x+72,y+40),fill=mid); poly([(x+49,y+8),(x+77,y+8),(x+72,y+14),(x+49,y+14)],hi)
+        for yy in (27,35,42): d.arc((x-8,y+yy-7,x+54,y+yy+8),190,345,fill=c,width=3)
+    elif k==7: # container ship
+        poly([(x+7,y+34),(x+82,y+34),(x+72,y+42),(x+18,y+42)],mid)
+        for bx,by,bc in [(20,20,c),(36,20,hi),(52,20,c),(28,11,mid),(44,11,c)]: d.rectangle((x+bx,y+by,x+bx+14,y+by+8),fill=bc)
+        d.line((x+8,y+44,x+87,y+44),fill=c,width=2)
+    elif k==8: # power pylon and line
+        poly([(x+43,y+5),(x+30,y+41),(x+56,y+41)],mid); d.line((x+35,y+25,x+52,y+25),fill=hi,width=2); d.line((x+32,y+15,x+55,y+15),fill=hi,width=2)
+        d.line((x+4,y+13,x+32,y+15),fill=c,width=2); d.line((x+55,y+15,x+88,y+9),fill=c,width=2)
+    else: # leaf over a chart
+        d.line((x+8,y+39,x+85,y+39),fill=mid,width=2); d.line((x+15,y+34,x+31,y+28,x+48,y+31,x+73,y+12),fill=c,width=3)
+        d.ellipse((x+44,y+7,x+73,y+26),fill=c); poly([(x+44,y+25),(x+50,y+8),(x+73,y+7),(x+66,y+22)],c); d.line((x+48,y+24,x+68,y+10),fill=hi,width=2)
 for i,(slug,a,b,c,k) in enumerate(cards):
     row,col=divmod(i,5); x=M+col*(cw+cg); y=385+row*104
     vignette(x,y,k,c); text(x+99,y+1,slug,8.5,c,True,85)
