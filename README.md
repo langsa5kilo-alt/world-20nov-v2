@@ -1,6 +1,6 @@
-![make.fun type](https://img.shields.io/badge/make.fun-news--image--20261120-c8102e)
-![make.fun owner](https://img.shields.io/badge/owner-langsa5kilo--alt-31556b)
-![make.fun repo](https://img.shields.io/badge/repo-world--20nov--v2-35645a)
+[![make.fun · news-image-20261120](https://make.fun/badge/news-image-20261120.svg)](https://make.fun/bounty/news-image-20261120)
+[![rank](https://make.fun/badge/news-image-20261120/langsa5kilo-alt/world-20nov-v2/rank.svg)](https://make.fun/bounty/news-image-20261120/leaderboard)
+[![reward](https://make.fun/badge/news-image-20261120/langsa5kilo-alt/world-20nov-v2/reward.svg)](https://make.fun/bounty/news-image-20261120)
 
 # World Picture, 20 November 2026
 
