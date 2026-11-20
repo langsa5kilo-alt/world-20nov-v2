@@ -116,55 +116,60 @@ rule(375)
 
 # Ten illustrated cards
 cards=[
- ("MIDEAST","GAZA TALKS ENTER","A SECOND WEEK","#b96b56",0),
- ("ASIA","TOKYO WAGES OUTRUN","PRICES AT LAST","#d55b70",1),
- ("AMERICAS","ANDES RAIL LINK","CLEARS LAST PASS","#58a48e",2),
- ("AFRICA","SAHEL SOLAR GRID","POWERS SIX CITIES","#c09a50",3),
- ("OCEANIA","REEF TREATY ADDS","A NO-TAKE ZONE","#858bd1",4),
- ("EUROPE","DANUBE FLOOD WALL","MEETS HIGH WATER","#65a5c9",5),
- ("ASIA","INDIA'S MOON RELAY","SENDS FIRST MAP","#d55b70",6),
- ("GLOBAL","VACCINE FUND WINS","FIVE-YEAR RENEWAL","#959da8",7),
- ("AMERICAS","CARIBBEAN CABLE","RETURNS ONLINE","#58a48e",8),
- ("OCEANIA","AUCKLAND VOTES","FOR DENSER HOMES","#858bd1",9)]
+ ("MIDEAST","GAZA TALKS ENTER","A SECOND WEEK","#b96b56",0,"2 WEEKS"),
+ ("ASIA","TOKYO WAGES OUTRUN","PRICES AT LAST","#d55b70",1,"18%"),
+ ("AMERICAS","ANDES RAIL LINK","CLEARS LAST PASS","#58a48e",2,"4.2M"),
+ ("AFRICA","SAHEL SOLAR GRID","POWERS SIX CITIES","#c09a50",3,"6 CITIES"),
+ ("OCEANIA","REEF TREATY ADDS","A NO-TAKE ZONE","#858bd1",4,"31%"),
+ ("EUROPE","DANUBE FLOOD WALL","MEETS HIGH WATER","#65a5c9",5,"12 SITES"),
+ ("ASIA","INDIA'S MOON RELAY","SENDS FIRST MAP","#d55b70",6,"48H"),
+ ("GLOBAL","VACCINE FUND WINS","FIVE-YEAR RENEWAL","#959da8",7,"5 YEARS"),
+ ("AMERICAS","CARIBBEAN CABLE","RETURNS ONLINE","#58a48e",8,"9 STATES"),
+ ("OCEANIA","AUCKLAND VOTES","FOR DENSER HOMES","#858bd1",9,"1,200 HOMES")]
 cw, cg = 184, 12
-def vignette(x,y,k,c):
+def vignette(x,y,k,c,callout):
     dark,mid,hi="#202830","#59616b","#d7dce1"
     d.rectangle((x,y,x+92,y+46),fill=dark)
-    if k==0: # court gavel on a bench
-        d.rectangle((x+8,y+35,x+84,y+41),fill=mid); d.rectangle((x+46,y+10,x+52,y+34),fill=c)
-        poly([(x+34,y+9),(x+57,y+18),(x+53,y+27),(x+30,y+18)],c); d.line((x+35,y+11,x+54,y+18),fill=hi,width=2)
-    elif k==1: # vial and chart
-        d.rectangle((x+10,y+14,x+29,y+39),fill=c); d.rectangle((x+14,y+8,x+25,y+14),fill=mid)
-        d.line((x+39,y+37,x+83,y+37),fill=mid,width=2); d.line((x+42,y+32,x+54,y+24,x+65,y+29,x+81,y+10),fill=c,width=3); d.ellipse((x+77,y+7,x+83,y+13),fill=hi)
-    elif k==2: # wind turbine and wave
-        d.line((x+31,y+15,x+31,y+40),fill=hi,width=2); d.ellipse((x+28,y+12,x+34,y+18),fill=c)
-        for ex,ey in [(15,6),(45,7),(29,27)]: d.line((x+31,y+15,x+ex,y+ey),fill=c,width=3)
-        d.arc((x+44,y+22,x+91,y+48),190,345,fill=c,width=4); d.arc((x+55,y+28,x+88,y+45),190,340,fill=hi,width=2)
-    elif k==3: # ballot box with a queue
-        d.rectangle((x+42,y+19,x+82,y+40),fill=c); d.line((x+49,y+23,x+73,y+23),fill=hi,width=2); poly([(x+55,y+7),(x+72,y+12),(x+67,y+25),(x+50,y+19)],hi)
-        for px in (9,23,35): d.ellipse((x+px,y+16,x+px+7,y+23),fill=mid); d.line((x+px+3,y+23,x+px+3,y+38),fill=mid,width=3)
-    elif k==4: # train entering a tunnel
-        d.arc((x+4,y+6,x+60,y+55),180,360,fill=c,width=6); d.rectangle((x+25,y+20,x+56,y+41),fill=mid)
-        d.rectangle((x+30,y+24,x+39,y+31),fill=hi); d.ellipse((x+29,y+37,x+35,y+43),fill=c); d.line((x+57,y+38,x+88,y+38),fill=hi,width=2)
-    elif k==5: # satellite over a curve
-        d.arc((x+2,y+22,x+90,y+70),180,360,fill=c,width=4); d.rectangle((x+39,y+13,x+53,y+27),fill=hi)
-        poly([(x+36,y+15),(x+18,y+8),(x+15,y+18),(x+36,y+23)],mid); poly([(x+56,y+15),(x+75,y+8),(x+78,y+18),(x+56,y+23)],mid); d.line((x+46,y+13,x+51,y+5),fill=c,width=2)
-    elif k==6: # flood wall with water
+    if k==0: # two sides meeting at a talks table
+        d.rectangle((x+12,y+29,x+79,y+34),fill=mid); d.ellipse((x+17,y+9,x+29,y+21),fill=c); d.ellipse((x+62,y+9,x+74,y+21),fill=c)
+        d.line((x+23,y+21,x+36,y+30),fill=hi,width=3); d.line((x+68,y+21,x+55,y+30),fill=hi,width=3); d.line((x+42,y+12,x+50,y+12),fill=c,width=2)
+    elif k==1: # rising wage chart and yen coin
+        d.ellipse((x+9,y+9,x+35,y+35),fill=c); text(x+17,y+11,"¥",16,hi,True,18)
+        d.line((x+40,y+34,x+53,y+28,x+65,y+30,x+82,y+9),fill=c,width=3); poly([(x+76,y+10),(x+83,y+8),(x+82,y+16)],hi)
+    elif k==2: # train entering a mountain pass
+        poly([(x+2,y+36),(x+25,y+8),(x+43,y+31),(x+59,y+13),(x+90,y+37)],mid); d.arc((x+29,y+17,x+69,y+52),180,360,fill=c,width=5)
+        d.rectangle((x+39,y+28,x+61,y+42),fill=hi); d.rectangle((x+43,y+31,x+50,y+36),fill=dark); d.line((x+63,y+39,x+89,y+39),fill=c,width=2)
+    elif k==3: # solar array powering a small skyline
+        for sx in (7,29,51): poly([(x+sx,y+12),(x+sx+18,y+12),(x+sx+14,y+27),(x+sx-4,y+27)],c)
+        for sx in (7,29,51): d.line((x+sx+7,y+27,x+sx+7,y+34),fill=hi,width=2)
+        for bx,bh in [(8,8),(19,12),(32,7),(43,14),(57,10),(72,16)]: d.rectangle((x+bx,y+38-bh,x+bx+9,y+38),fill=mid)
+    elif k==4: # coral, fish and protected water
+        d.arc((x+3,y+3,x+89,y+36),15,165,fill=c,width=3); poly([(x+51,y+18),(x+64,y+11),(x+78,y+18),(x+64,y+25)],hi); poly([(x+51,y+18),(x+43,y+12),(x+43,y+24)],c)
+        d.line((x+19,y+36,x+19,y+21),fill=c,width=3); d.line((x+19,y+27,x+12,y+20),fill=c,width=2); d.line((x+19,y+30,x+27,y+22),fill=c,width=2)
+    elif k==5: # flood wall holding back water
         d.rectangle((x+49,y+8,x+72,y+40),fill=mid); poly([(x+49,y+8),(x+77,y+8),(x+72,y+14),(x+49,y+14)],hi)
         for yy in (27,35,42): d.arc((x-8,y+yy-7,x+54,y+yy+8),190,345,fill=c,width=3)
-    elif k==7: # container ship
-        poly([(x+7,y+34),(x+82,y+34),(x+72,y+42),(x+18,y+42)],mid)
-        for bx,by,bc in [(20,20,c),(36,20,hi),(52,20,c),(28,11,mid),(44,11,c)]: d.rectangle((x+bx,y+by,x+bx+14,y+by+8),fill=bc)
-        d.line((x+8,y+44,x+87,y+44),fill=c,width=2)
-    elif k==8: # power pylon and line
-        poly([(x+43,y+5),(x+30,y+41),(x+56,y+41)],mid); d.line((x+35,y+25,x+52,y+25),fill=hi,width=2); d.line((x+32,y+15,x+55,y+15),fill=hi,width=2)
-        d.line((x+4,y+13,x+32,y+15),fill=c,width=2); d.line((x+55,y+15,x+88,y+9),fill=c,width=2)
-    else: # leaf over a chart
-        d.line((x+8,y+39,x+85,y+39),fill=mid,width=2); d.line((x+15,y+34,x+31,y+28,x+48,y+31,x+73,y+12),fill=c,width=3)
-        d.ellipse((x+44,y+7,x+73,y+26),fill=c); poly([(x+44,y+25),(x+50,y+8),(x+73,y+7),(x+66,y+22)],c); d.line((x+48,y+24,x+68,y+10),fill=hi,width=2)
-for i,(slug,a,b,c,k) in enumerate(cards):
+    elif k==6: # satellite over the moon's curve
+        d.arc((x+2,y+22,x+90,y+70),180,360,fill=c,width=4); d.rectangle((x+39,y+13,x+53,y+27),fill=hi)
+        poly([(x+36,y+15),(x+18,y+8),(x+15,y+18),(x+36,y+23)],mid); poly([(x+56,y+15),(x+75,y+8),(x+78,y+18),(x+56,y+23)],mid); d.line((x+46,y+13,x+51,y+5),fill=c,width=2)
+    elif k==7: # vaccine vial protected by the fund
+        d.rectangle((x+13,y+12,x+34,y+38),fill=c); d.rectangle((x+17,y+7,x+30,y+13),fill=hi); d.rectangle((x+17,y+23,x+30,y+28),fill=dark)
+        poly([(x+60,y+7),(x+79,y+14),(x+75,y+33),(x+60,y+41),(x+45,y+33),(x+41,y+14)],mid); d.line((x+51,y+24,x+58,y+31,x+70,y+17),fill=hi,width=3)
+    elif k==8: # undersea cable joining islands
+        d.arc((x+4,y+8,x+87,y+54),175,355,fill=c,width=4)
+        for px,py in [(14,17),(36,12),(59,16),(78,10)]: d.ellipse((x+px-4,y+py-3,x+px+5,y+py+3),fill=hi)
+        d.rectangle((x+38,y+31,x+53,y+39),fill=mid); d.line((x+45,y+28,x+45,y+34),fill=hi,width=2)
+    else: # denser homes and cranes
+        for bx,by,bw in [(5,17,17),(24,9,19),(45,15,14),(61,6,22)]:
+            d.rectangle((x+bx,y+by,x+bx+bw,y+40),fill=mid); poly([(x+bx-2,y+by),(x+bx+bw//2,y+by-7),(x+bx+bw+2,y+by)],c)
+            for wx in range(bx+4,bx+bw-2,7): d.rectangle((x+wx,y+by+6,x+wx+3,y+by+10),fill=hi)
+    # A compact opaque patch keeps the numeric fact legible over every scene.
+    cf=font(11,True); patch_w=tw(callout,cf)+8
+    d.rectangle((x+92-patch_w,y+29,x+92,y+46),fill="#11161b")
+    text(x+88,y+31,callout,11,"#ffffff",True,patch_w-8,anchor="ra")
+for i,(slug,a,b,c,k,callout) in enumerate(cards):
     row,col=divmod(i,5); x=M+col*(cw+cg); y=385+row*104
-    vignette(x,y,k,c); text(x+99,y+1,slug,8.5,c,True,85)
+    vignette(x,y,k,c,callout); text(x+99,y+1,slug,8.5,c,True,85)
     text(x,y+51,a,12,INK,True,cw); text(x,y+66,b,12,INK,True,cw)
 rule(589)
 
@@ -172,23 +177,32 @@ rule(589)
 text(M,596,"THE DAY, MAPPED",9,INK,True,180)
 mx,my=M,612
 d.rectangle((mx,my,mx+240,my+150),fill="#11161b",outline=RULE)
-land="#44545b"
+land="#65757c"
 poly([(mx+12,my+44),(mx+32,my+21),(mx+66,my+19),(mx+86,my+37),(mx+71,my+52),(mx+47,my+56),(mx+37,my+76),(mx+18,my+68)],land)
 poly([(mx+72,my+76),(mx+93,my+86),(mx+98,my+116),(mx+86,my+139),(mx+76,my+105)],land)
 poly([(mx+111,my+30),(mx+143,my+18),(mx+181,my+25),(mx+219,my+47),(mx+202,my+64),(mx+168,my+58),(mx+150,my+78),(mx+128,my+68)],land)
 poly([(mx+130,my+72),(mx+159,my+74),(mx+169,my+112),(mx+151,my+137),(mx+134,my+105)],land)
 poly([(mx+197,my+106),(mx+222,my+111),(mx+230,my+130),(mx+204,my+134)],land)
+# Faint schematic borders suggest national divisions without turning the map into a chart.
+border="#849198"
+for pts in [[(30,25),(42,43),(35,65)],[(55,20),(57,50)],[(79,35),(65,48)],
+            [(84,82),(94,103),(88,124)],[(127,26),(138,48),(128,66)],[(153,21),(158,56)],
+            [(181,28),(176,58)],[(140,77),(153,95),(151,126)],[(205,111),(215,131)]]:
+    d.line([(mx+px,my+py) for px,py in pts],fill=border,width=1)
+# Five quiet region labels establish orientation while leaving the numbered reports dominant.
+for lx,ly,lab in [(19,57,"AMERICAS"),(110,17,"EUROPE"),(126,84,"AFRICA"),(172,50,"ASIA"),(194,134,"OCEANIA")]:
+    text(mx+lx,my+ly,lab,8.5,"#c5cbd0",True,75)
 dots=[(207,51),(147,41),(131,54),(77,42),(55,52),(87,99),(149,91),(218,121),(173,46),(119,42),(37,40),(102,61)]
 for n,(dx,dy) in enumerate(dots,1):
+    d.ellipse((mx+dx-6,my+dy-6,mx+dx+6,my+dy+6),fill="#e6e9ec")
     d.ellipse((mx+dx-5,my+dy-5,mx+dx+5,my+dy+5),fill=RED)
     text(mx+dx,my+dy-5,str(n),8.5,"#ffffff",True,12,anchor="ra")
 text(mx+250,my,"1–12  Illustrated stories above",9,BODY,True,230)
 text(mx+250,my+18,"Dots locate the day's visual reports.",9,BODY,False,230)
-d.rectangle((524,my,996,my+74),outline=RED,width=1)
+d.rectangle((524,my,996,my+59),outline=RED,width=1)
 text(536,my+8,"DATE CHECK",9,RED,True,130)
 text(536,my+26,"Omitted: the 19 Nov Mars launch, the 21 Nov G20 ministerial,",9,BODY,False,445)
 text(536,my+42,"and weekend election previews. This edition covers Friday only.",9,BODY,False,445)
-text(536,my+87,"45 reports · numbered once · regional totals audited",9,INK,True,440)
 
 # Briefs 14–45, 32 items in three columns
 briefs=[
@@ -214,6 +228,7 @@ for i,(place,clause) in enumerate(briefs):
 
 rule(986)
 text(M,993,"SOURCES  ·  WORLD DESK WIRES, PUBLIC AGENCIES, MARKET CLOSES  ·  ART AND EDITING: WORLD PICTURE DESK",8.5,"#7f8792",False,850)
+text(622,993,"45 reports · numbered once · regional totals audited",8.5,INK,True,300)
 text(W-M,993,"20 NOV 2026",8.5,"#7f8792",True,anchor="ra")
 
 assert img.size == (1024,1024)
